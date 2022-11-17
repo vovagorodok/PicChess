@@ -1,7 +1,7 @@
 #include <PicChessEngine.h>
 #include <Arduino.h>
 
-char deep = 3;
+char deep = 30;
 char mySide = White;
 char moveStr[10];
 
