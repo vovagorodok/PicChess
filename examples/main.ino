@@ -1,4 +1,4 @@
-#include <PicChessEngine.h>
+#include <PicChess.h>
 #include <Arduino.h>
 
 char deep = 30;
