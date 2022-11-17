@@ -36,7 +36,7 @@ typedef struct
 void errorOverflow(void);
 
 //---- Move utilits
-void strToMove(char *str,MOVE *m);
+void strToMove(const char *str,MOVE *m);
 void moveToStr(MOVE m,char* buf);
 int getMove(MOVE *m, unsigned char key);
 

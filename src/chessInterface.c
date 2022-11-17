@@ -125,7 +125,7 @@ void moveToStr(MOVE m,char* buf)
 //---------------- strToMove ------------
 // Convert algebraic chess notation string
 // to a move.
-void strToMove(char *str,MOVE *m)
+void strToMove(const char *str,MOVE *m)
 {
 	m->from = str[0]-'a'+ (str[1]-'1')*16;
 	m->to   = str[2]-'a'+ (str[3]-'1')*16;
