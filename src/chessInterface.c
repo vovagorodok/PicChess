@@ -157,6 +157,64 @@ void strToMove(const char *str,MOVE *m)
 	
 }
 
+//---------------- moveToUci ------------
+// Convert a MOVE variable to a long algebraic
+// chess notation string. 
+// sizeof(Buf) must be > 5.
+void moveToUci(MOVE m,char* buf)
+{
+    *buf++ = (m.from&7) +'a';		// file
+    *buf++ = (m.from>>4)+'1';		// row
+	*buf++ = (m.to&7) +'a';			// file
+    *buf++ = (m.to>>4)+'1';			// row
+
+	switch(m.status.promotion){		// add "X" promotion chars if needed
+		case queen:
+			*buf++ = 'q';
+			break;
+		case rook:
+			*buf++ = 'r';
+			break;
+		case bishop:
+			*buf++ = 'b';
+			break;
+		case knight:
+			*buf++ = 'n';
+			break;
+	}
+    *buf = 0;						// string end
+}
+
+//---------------- uciToMove ------------
+// Convert long algebraic chess notation string
+// to a move.
+void uciToMove(const char *str,MOVE *m)
+{
+	m->from = str[0]-'a'+ (str[1]-'1')*16;
+	m->to   = str[2]-'a'+ (str[3]-'1')*16;
+	if(board[m->to]!=empty)
+		m->eat  = board[m->to];
+	else
+		m->eat  = empty;
+	m->status.Castle = checkCastle(*m);
+	switch(str[4]){						// check if there is a promotion
+		case 'q':
+			m->status.promotion = queen;
+			break;
+		case 'r':
+			m->status.promotion = rook;
+			break;
+		case 'b':
+			m->status.promotion = bishop;
+			break;
+		case 'n':
+			m->status.promotion = knight;
+			break;
+		default:
+			m->status.promotion = 0;
+			break;
+	}	
+}
 
 //------------------- errorOverflow ---------------
 // in case of overflow send a message via serial

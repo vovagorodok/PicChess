@@ -38,6 +38,8 @@ void errorOverflow(void);
 //---- Move utilits
 void strToMove(const char *str,MOVE *m);
 void moveToStr(MOVE m,char* buf);
+void uciToMove(const char *str,MOVE *m);
+void moveToUci(MOVE m,char* buf);
 int getMove(MOVE *m, unsigned char key);
 
 //---- Publishing Functions

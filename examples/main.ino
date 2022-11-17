@@ -16,7 +16,7 @@ void chessGame()
         if (Side == mySide)
         {
             while (not Serial.available());
-            strToMove(Serial.readString().c_str(), &m);
+            uciToMove(Serial.readString().c_str(), &m);
             if (!testMove(m))
             {
                 Serial.println("rejected");
@@ -31,7 +31,7 @@ void chessGame()
         makeMove(m);
         moveStackPtr = moveStack;
 
-        moveToStr(m, moveStr);
+        moveToUci(m, moveStr);
         Serial.print("moved: ");
         Serial.println(moveStr);
 
