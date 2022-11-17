@@ -1,7 +1,7 @@
 #include <PicChess.h>
 #include <Arduino.h>
 
-char deep = 30;
+char deep = 5;
 char mySide = White;
 char moveStr[10];
 
@@ -11,7 +11,7 @@ void chessGame()
     initBoard();
     Serial.println("start new game");
 
-    while (TRUE)
+    while (true)
     {
         if (Side == mySide)
         {
