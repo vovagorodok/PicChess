@@ -29,20 +29,20 @@ void chessGame()
         }
 
         makeMove(m);
-        moveStackPtr = moveStack;
-
         moveToUci(m, moveStr);
         Serial.print("moved: ");
         Serial.println(moveStr);
 
         if(genMoves(Side) == 0)
         {
+            moveStackPtr = moveStack;
             if(kingIsInCheck(Side))
                 Serial.println("checkmate");
             else
                 Serial.println("stalemate");
             break;
         }
+        moveStackPtr = moveStack;
     }
 }
 
