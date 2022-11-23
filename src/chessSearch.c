@@ -13,7 +13,7 @@
 //
 //-------------------------------------------------
 #include "chessEngine.h"
-#include <time.h>
+// #include <time.h>
 //---------------------alphaBeta ------------------------
 // Returns the best move for a board state using the alphabeta algorithm
 
@@ -81,13 +81,13 @@ MOVE searchAlphaBeta( int depth, int alpha, int beta )
 {
 
 	int score;
-        char pv[255]="";
+    // char pv[255]="";
 	MOVE *first,*last,best;
 	
-	nodeCnt =0;
+	// nodeCnt =0;
 
-       clock_t t;
-       t= clock();
+	// clock_t t;
+	// t= clock();
 
 	// add moves to stack
 	first = moveStackPtr;		// save stack bottom in a pointer
@@ -133,9 +133,9 @@ MOVE searchAlphaBeta( int depth, int alpha, int beta )
 	// clear moves genereted in the stack for this node
 	moveStackPtr = first;
 	
-    int elapsedTime  = (double)(clock() - t)*100/CLOCKS_PER_SEC; // in centiseconds
-    moveToStr(best,pv); 
-    printf("%i\t%i\t%i\t%i\t%s\n",depth,score,elapsedTime,nodeCnt,pv); 
+    // int elapsedTime  = (double)(clock() - t)*100/CLOCKS_PER_SEC; // in centiseconds
+    // moveToStr(best,pv); 
+    // printf("%i\t%i\t%i\t%i\t%s\n",depth,score,elapsedTime,nodeCnt,pv); 
     return best;
 }
 
