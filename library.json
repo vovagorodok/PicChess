@@ -1,0 +1,34 @@
+{
+    "name": "PicChess",
+    "version": "0.9.0",
+    "description": "PicChess engine",
+    "keywords": "chess, engine",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/vovagorodok/PicChess"
+    },
+    "authors":
+    [
+      {
+        "name": "arthurbenemann"
+      },
+      {
+        "name": "vovagorodok",
+        "email": "vovagorodok2@gmail.com",
+        "url": "https://github.com/vovagorodok",
+        "maintainer": true
+      },
+      {
+        "name": "dkwach",
+        "email": "dawid.kwach@gmail.com",
+        "url": "https://github.com/dkwach",
+        "maintainer": true
+      }
+    ],
+    "license": "MIT",
+    "homepage": "https://www.instructables.com/picChess/",
+    "headers": ["PicChess.h"],
+    "frameworks": "arduino",
+    "platforms": ["*"]
+  }
