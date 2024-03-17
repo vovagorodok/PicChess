@@ -1,0 +1,15 @@
+# Datatypes (KEYWORD1)
+
+# Methods and Functions (KEYWORD2)
+initBoard	KEYWORD2
+uciToMove	KEYWORD2
+testMove	KEYWORD2
+searchAlphaBeta	KEYWORD2
+makeMove	KEYWORD2
+moveToUci	KEYWORD2
+genMoves	KEYWORD2
+kingIsInCheck	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
