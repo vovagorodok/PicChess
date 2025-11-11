@@ -64,11 +64,8 @@ int chessGame(unsigned char key)
 				publishMove(m);
 			}
 			else
-			{							// Player move
-				if(!getMove(&m,key))	// try to get a move
-				{
-					return FALSE;		
-				}
+			{		
+				getMove(&m,key);		// Player move
 			}
 
 			makeMove(m);				// Make the move

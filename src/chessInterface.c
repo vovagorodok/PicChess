@@ -44,7 +44,7 @@ unsigned getPromo(void);
 
 //--------------------------------- FUNCTIONS --------------------------------------
 
-int getMove(MOVE *m, unsigned char key){
+void getMove(MOVE *m, unsigned char key){
 	char buf[256];
 	while(1){
 		fgets(buf, 256, stdin);
