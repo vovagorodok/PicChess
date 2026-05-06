@@ -1,9 +1,9 @@
 //------------------------------------------------
 //		chessInterface.c
-//	Arthur Benemann 
+//	Arthur Benemann
 //						26/05/2011
 //------------------------------------------------
-//  
+//
 //	Description:
 // All the interface gfrom the user to the chess engine
 // is made trought here.
@@ -25,10 +25,10 @@
 //
 //-------------------------------------------------
 #include <stdio.h>
-#include <ctype.h> 				// for isalnum 
-#include <string.h> 			// for strlen
-#include "chessEngine.h"		// chess game definitions
-#include "chessInterface.h"		// interfacing functions
+#include <ctype.h> // for isalnum
+#include <string.h> // for strlen
+#include "chessEngine.h" // chess game definitions
+#include "chessInterface.h" // interfacing functions
 
 //------------------------------ PRIVATE PROTOTYPES --------------------------------
 void textInput(char c);
@@ -44,182 +44,175 @@ unsigned getPromo(void);
 
 //--------------------------------- FUNCTIONS --------------------------------------
 
-void getMove(MOVE *m, unsigned char key){
-	char buf[256];
-	while(1){
-		fgets(buf, 256, stdin);
-		if (buf[0]>='a'&&buf[0]<='h'){
-			if (buf[1]>='1'&&buf[1]<='8'){
-				if (buf[2]>='a'&&buf[2]<='h'){
-					if (buf[3]>='1'&&buf[3]<='8'){
-						break;
-					}
-				}
-			}
-		}
-		printf("\n");
-	}
-	strToMove(buf,m);
+void getMove(MOVE* m, unsigned char key) {
+    char buf[256];
+    while (1) {
+        fgets(buf, 256, stdin);
+        if (buf[0] >= 'a' && buf[0] <= 'h') {
+            if (buf[1] >= '1' && buf[1] <= '8') {
+                if (buf[2] >= 'a' && buf[2] <= 'h') {
+                    if (buf[3] >= '1' && buf[3] <= '8') {
+                        break;
+                    }
+                }
+            }
+        }
+        printf("\n");
+    }
+    strToMove(buf, m);
 }
 
 //------------- publishMove -------------
 // send it via serial
-void publishMove(MOVE m)
-{
-	char buf[16];
-	// send move via serial
-	moveToStr(m,buf);
-	printf("move %s\n",buf);
-	fflush(stdout);
+void publishMove(MOVE m) {
+    char buf[16];
+    // send move via serial
+    moveToStr(m, buf);
+    printf("move %s\n", buf);
+    fflush(stdout);
 }
-
 
 //------------- announceCheckmate ---------------------
 // Function is called when a checkmate is made
 // Alert via serial and display in the video
-void announceCheckmate(void)
-{
-	printf("Checkmate\n");
+void announceCheckmate(void) {
+    printf("Checkmate\n");
 }
 
 //------------- announceStalemate ---------------------
 // Function is called when a stalemate is made
 // Alert via serial and display in the video
-void announceStalemate(void)
-{
-	printf("Stalemate\n");
+void announceStalemate(void) {
+    printf("Stalemate\n");
 }
 
 //---------------- moveToStr ------------
 // Convert a MOVE variable to a algebraic
-// chess notation string. 
+// chess notation string.
 // sizeof(Buf) must be > 6.
-void moveToStr(MOVE m,char* buf)
-{
-    *buf++ = (m.from&7) +'a';		// file
-    *buf++ = (m.from>>4)+'1';		// row
-	*buf++ = (m.to&7) +'a';			// file
-    *buf++ = (m.to>>4)+'1';			// row
+void moveToStr(MOVE m, char* buf) {
+    *buf++ = (m.from & 7) + 'a'; // file
+    *buf++ = (m.from >> 4) + '1'; // row
+    *buf++ = (m.to & 7) + 'a'; // file
+    *buf++ = (m.to >> 4) + '1'; // row
 
-	switch(m.status.promotion){		// add "=X" promotion chars if needed
-		case queen:
-			*buf++ = '=';
-			*buf++ = 'q';
-			break;
-		case rook:
-			*buf++ = '=';
-			*buf++ = 'r';
-			break;
-		case bishop:
-			*buf++ = '=';
-			*buf++ = 'b';
-			break;
-		case knight:
-			*buf++ = '=';
-			*buf++ = 'n';
-			break;
-	}
-    *buf = 0;						// string end
+    switch (m.status.promotion) { // add "=X" promotion chars if needed
+        case queen:
+            *buf++ = '=';
+            *buf++ = 'q';
+            break;
+        case rook:
+            *buf++ = '=';
+            *buf++ = 'r';
+            break;
+        case bishop:
+            *buf++ = '=';
+            *buf++ = 'b';
+            break;
+        case knight:
+            *buf++ = '=';
+            *buf++ = 'n';
+            break;
+    }
+    *buf = 0; // string end
 }
 
 //---------------- strToMove ------------
 // Convert algebraic chess notation string
 // to a move.
-void strToMove(const char *str,MOVE *m)
-{
-	m->from = str[0]-'a'+ (str[1]-'1')*16;
-	m->to   = str[2]-'a'+ (str[3]-'1')*16;
-	if(board[m->to]!=empty)
-		m->eat  = board[m->to];
-	else
-		m->eat  = empty;
-	m->status.Castle = checkCastle(*m);
-	if(str[4]=='=')						// check if there is a promotion
-		switch(str[5]){
-			case 'q':
-				m->status.promotion = queen;
-				break;
-			case 'r':
-				m->status.promotion = rook;
-				break;
-			case 'b':
-				m->status.promotion = bishop;
-				break;
-			case 'n':
-				m->status.promotion = knight;
-				break;
-			default:
-				m->status.promotion = 0;
-				break;
-		}
-	else
-		m->status.promotion = 0;
-	
+void strToMove(const char* str, MOVE* m) {
+    m->from = str[0] - 'a' + (str[1] - '1') * 16;
+    m->to = str[2] - 'a' + (str[3] - '1') * 16;
+    if (board[m->to] != empty) {
+        m->eat = board[m->to];
+    } else {
+        m->eat = empty;
+    }
+    m->status.Castle = checkCastle(*m);
+    if (str[4] == '=') { // check if there is a promotion
+        switch (str[5]) {
+            case 'q':
+                m->status.promotion = queen;
+                break;
+            case 'r':
+                m->status.promotion = rook;
+                break;
+            case 'b':
+                m->status.promotion = bishop;
+                break;
+            case 'n':
+                m->status.promotion = knight;
+                break;
+            default:
+                m->status.promotion = 0;
+                break;
+        }
+    } else {
+        m->status.promotion = 0;
+    }
 }
 
 //---------------- moveToUci ------------
 // Convert a MOVE variable to a long algebraic
-// chess notation string. 
+// chess notation string.
 // sizeof(Buf) must be > 5.
-void moveToUci(MOVE m,char* buf)
-{
-    *buf++ = (m.from&7) +'a';		// file
-    *buf++ = (m.from>>4)+'1';		// row
-	*buf++ = (m.to&7) +'a';			// file
-    *buf++ = (m.to>>4)+'1';			// row
+void moveToUci(MOVE m, char* buf) {
+    *buf++ = (m.from & 7) + 'a'; // file
+    *buf++ = (m.from >> 4) + '1'; // row
+    *buf++ = (m.to & 7) + 'a'; // file
+    *buf++ = (m.to >> 4) + '1'; // row
 
-	switch(m.status.promotion){		// add "X" promotion chars if needed
-		case queen:
-			*buf++ = 'q';
-			break;
-		case rook:
-			*buf++ = 'r';
-			break;
-		case bishop:
-			*buf++ = 'b';
-			break;
-		case knight:
-			*buf++ = 'n';
-			break;
-	}
-    *buf = 0;						// string end
+    switch (m.status.promotion) { // add "X" promotion chars if needed
+        case queen:
+            *buf++ = 'q';
+            break;
+        case rook:
+            *buf++ = 'r';
+            break;
+        case bishop:
+            *buf++ = 'b';
+            break;
+        case knight:
+            *buf++ = 'n';
+            break;
+    }
+    *buf = 0; // string end
 }
 
 //---------------- uciToMove ------------
 // Convert long algebraic chess notation string
 // to a move.
-void uciToMove(const char *str,MOVE *m)
-{
-	m->from = str[0]-'a'+ (str[1]-'1')*16;
-	m->to   = str[2]-'a'+ (str[3]-'1')*16;
-	if(board[m->to]!=empty)
-		m->eat  = board[m->to];
-	else
-		m->eat  = empty;
-	m->status.Castle = checkCastle(*m);
-	switch(str[4]){						// check if there is a promotion
-		case 'q':
-			m->status.promotion = queen;
-			break;
-		case 'r':
-			m->status.promotion = rook;
-			break;
-		case 'b':
-			m->status.promotion = bishop;
-			break;
-		case 'n':
-			m->status.promotion = knight;
-			break;
-		default:
-			m->status.promotion = 0;
-			break;
-	}	
+void uciToMove(const char* str, MOVE* m) {
+    m->from = str[0] - 'a' + (str[1] - '1') * 16;
+    m->to = str[2] - 'a' + (str[3] - '1') * 16;
+    if (board[m->to] != empty) {
+        m->eat = board[m->to];
+    } else {
+        m->eat = empty;
+    }
+    m->status.Castle = checkCastle(*m);
+    switch (str[4]) { // check if there is a promotion
+        case 'q':
+            m->status.promotion = queen;
+            break;
+        case 'r':
+            m->status.promotion = rook;
+            break;
+        case 'b':
+            m->status.promotion = bishop;
+            break;
+        case 'n':
+            m->status.promotion = knight;
+            break;
+        default:
+            m->status.promotion = 0;
+            break;
+    }
 }
 
 //------------------- errorOverflow ---------------
 // in case of overflow send a message via serial
 // and show a box on the screen
-void errorOverflow(void)
-{
-	printf("OVERFLOWWWWW\n");
+void errorOverflow(void) {
+    printf("OVERFLOWWWWW\n");
 }

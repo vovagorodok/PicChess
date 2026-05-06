@@ -5,27 +5,22 @@ int deep = 5;
 char mySide = White;
 char moveStr[10];
 
-void chessGame()
-{
+void chessGame() {
     MOVE m;
     initBoard();
     Serial.println("start new game");
 
-    while (true)
-    {
-        if (Side == mySide)
-        {
-            while (not Serial.available());
+    while (true) {
+        if (Side == mySide) {
+            while (not Serial.available())
+                ;
             uciToMove(Serial.readString().c_str(), &m);
-            if (!testMove(m))
-            {
+            if (!testMove(m)) {
                 Serial.println("rejected");
                 continue;
             }
-        }
-        else
-        {
-            m = searchAlphaBeta(deep,INF_NEG,INF_POS);
+        } else {
+            m = searchAlphaBeta(deep, INF_NEG, INF_POS);
         }
 
         makeMove(m);
@@ -33,13 +28,13 @@ void chessGame()
         Serial.print("moved: ");
         Serial.println(moveStr);
 
-        if(genMoves(Side) == 0)
-        {
+        if (genMoves(Side) == 0) {
             moveStackPtr = moveStack;
-            if(kingIsInCheck(Side))
+            if (kingIsInCheck(Side)) {
                 Serial.println("checkmate");
-            else
+            } else {
                 Serial.println("stalemate");
+            }
             break;
         }
         moveStackPtr = moveStack;
